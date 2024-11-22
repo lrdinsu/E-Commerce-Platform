@@ -1,9 +1,8 @@
 package com.lrdinsu.ecommerceplatform.domain;
 
-public enum USER_ROLE {
+public enum ROLE {
 
     ADMIN,
     CUSTOMER,
-    SELLER
 
 }

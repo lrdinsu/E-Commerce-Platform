@@ -1,56 +1,41 @@
 package com.lrdinsu.ecommerceplatform.model;
 
-import com.lrdinsu.ecommerceplatform.domain.OrderStatus;
-import com.lrdinsu.ecommerceplatform.domain.PaymentStatus;
-import com.lrdinsu.ecommerceplatform.model.embeddable.PaymentDetails;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "orders")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String orderId;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    private Long sellerId;
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private List<OrderItem> products = new ArrayList<>();
 
-    @ManyToOne
-    private Address shippingAddress;
+    @Column(nullable = false)
+    private Double totalAmount;
 
-    @Embedded
-    private PaymentDetails paymentDetails = new PaymentDetails();
+    @Column(unique = true)
+    private String stripeSessionId;
 
-    private double totalSellingPrice;
-
-    private double totalMsrpPrice;
-
-    private double discount;
-
-    private OrderStatus orderStatus;
-
-    private int totalItems;
-
-    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
-
-    private LocalDateTime orderDate = LocalDateTime.now();
-    private LocalDateTime deliveryDate = orderDate.plusDays(7);
-
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }

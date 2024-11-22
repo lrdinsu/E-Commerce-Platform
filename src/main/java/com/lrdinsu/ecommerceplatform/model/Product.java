@@ -2,19 +2,21 @@ package com.lrdinsu.ecommerceplatform.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "products")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Product {
 
     @Id
@@ -24,46 +26,23 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
     @Column(nullable = false)
-    private BigDecimal originalPrice;
+    private Double price;
 
     @Column(nullable = false)
-    private BigDecimal currentPrice;
-
-    @Column
-    private Integer discountPercentage;
+    private String image;
 
     @Column(nullable = false)
-    private Integer stockQuantity;
+    private String category;
 
-    @Column
-    private String color;
-
-    @ElementCollection
-    @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
-    @Column(name = "image_url")
-    private List<String> images = new ArrayList<>();
-
-    @Column
-    private Integer numberOfRatings = 0;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
-
-    @ManyToOne
-    @JoinColumn(name = "seller_id")
-    private Seller seller;
+    private Boolean isFeatured = false;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    private String sizes;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Review> reviews = new ArrayList<>();
-
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }
