@@ -1,6 +1,5 @@
 package com.lrdinsu.ecommerceplatform.model;
 
-
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 @Getter
@@ -22,13 +22,15 @@ public class CartItemKey implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CartItemKey)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+
         CartItemKey that = (CartItemKey) o;
-        return getCartId().equals(that.getCartId()) && getProductId().equals(that.getProductId());
+        return Objects.equals(cartId, that.cartId) &&
+                Objects.equals(productId, that.productId);
     }
 
     @Override
     public int hashCode() {
-        return 31;
+        return Objects.hash(cartId, productId);
     }
 }

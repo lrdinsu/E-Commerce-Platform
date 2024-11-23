@@ -1,8 +1,9 @@
 package com.lrdinsu.ecommerceplatform.service;
 
-import com.lrdinsu.ecommerceplatform.model.User;
+import com.lrdinsu.ecommerceplatform.dto.UserDTOs.UserDTO;
+import com.lrdinsu.ecommerceplatform.dto.UserDTOs.UserRegistrationDTO;
 import jakarta.validation.Valid;
 
 public interface UserService {
-    User registerUser(@Valid User user);
+    UserDTO registerUser(@Valid UserRegistrationDTO userRegistrationDTO);
 }

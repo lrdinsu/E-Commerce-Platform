@@ -1,2 +1,12 @@
 ### Home page
-GET http://localhost:5454
+GET http://localhost:8080
+
+### sign up
+POST http://localhost:8080/api/auth/signup
+content-type: application/json
+
+{
+  "username": "test",
+  "email": "test@email.com",
+  "password": "password"
+}
